@@ -10,31 +10,32 @@ document.addEventListener('DOMContentLoaded', () => {
             // Seção 1
             'sec1-title': '1. TELA INICIAL (Consulta de CNAE da API IBGE)',
             'sec1-p1': 'Esta é a tela de entrada do sistema. Ela lista todas as Subclasses CNAE disponíveis no catálogo da API do IBGE, atuando como a visão principal dos dados brutos e permitindo o acesso às funções de gerenciamento local.',
-            'sec1-img-caption': 'Visão Geral: Listagem completa dos registros obtidos da API (tabela `tableCnaes`).',
+            'sec1-img-caption': 'Visão Geral: Listagem completa dos registros obtidos da API.',
             'sec1-h3-list': '1.1. Lista de Registros da API',
             'sec1-p2': 'A tabela exibe a lista de CNAE, com as colunas "ID IBGE" e "Descrição". Estes dados são lidos diretamente da API e não representam o conteúdo do banco de dados local.',
             'sec1-h3-actions': '1.2. Ações na Tela Inicial',
-            'sec1-li-update-btn': 'Botão Atualizar Lista: Aciona a função `buscarSubclassesAPI` para recarregar a lista de CNAE diretamente da API do IBGE.',
-            'sec1-li-search-btn': 'Botão Buscar CNAE: Aciona a função `abrirPesquisaDetalhada`, direcionando para a Seção 2 para interagir com os dados locais (pesquisar, salvar, alterar ou excluir um registro).',
+            'sec1-li-update-btn': 'Botão Atualizar Lista: Recarrega a lista de CNAE diretamente da API do IBGE.',
+            'sec1-li-search-btn': 'Botão Buscar CNAE: Redireciona para a Seção 2, onde é possível pesquisar, salvar, alterar ou excluir um registro nos dados locais.',
 
             // Seção 2 - Geral
             'sec2-title': '2. PESQUISA DETALHADA (Gerenciamento de CNAEs Locais)',
-            'sec2-p1': 'A tela de Pesquisa Detalhada concentra as operações de CRUD (Criação, Leitura, Atualização e Exclusão), focando apenas nos registros já persistidos no banco de dados local.',
+            'sec2-p1': 'A tela de Pesquisa Detalhada é o centro das operações de CRUD (Criação, Leitura, Atualização e Exclusão). Ela <b>exibe tanto os registros locais</b> (para gestão) <b>quanto os dados importados da API</b> (para persistência no banco local).',
 
             // Seção 2 - Abas
-            'tab-search-local': 'Pesquisar/Consultar (Local)',
-            'tab-exclude': 'Excluir Selecionado', // Alterado para singular
+            'tab-search-local': 'Pesquisar/Consultar (Local/API)',
+            'tab-exclude': 'Excluir Selecionado', 
             'tab-edit': 'Editar Selecionado',
             'tab-save': 'Salvar/Incluir (Local)',
             
             // Seção 2.1
-            'sec2-1-h3': '2.1. Pesquisar e Consultar Registros (Banco Local)',
-            'sec2-1-p1': 'Utilize o campo \'Digite o CNAE\' para filtrar os resultados. Ao clicar em "Pesquisar", o sistema lista os CNAE que correspondem ao filtro, buscando-os exclusivamente no banco de dados local.',
+            'sec2-1-h3': '2.1. Pesquisar e Consultar Registros (Banco Local e API)',
+            // CORREÇÃO APLICADA AQUI: Incluindo a busca na API
+            'sec2-1-p1': 'Utilize o campo \'Digite o CNAE\' para filtrar. Ao clicar em "Pesquisar" na aba "Pesquisar/Consultar", o sistema busca e lista CNAEs <b>no banco de dados local E também na API do IBGE</b>, atuando como a função de leitura (READ) do CRUD.',
             'sec2-1-p2': 'Os registros listados (após a busca) servem como base para as demais funções de CRUD local.',
 
-            // Seção 2.2 (Corrigido para exclusão única)
+            // Seção 2.2 
             'sec2-2-h3': '2.2. Excluir CNAE Selecionado (Confirmação)',
-            'sec2-2-p1': 'O sistema permite a exclusão de apenas **um registro por vez**. Após selecionar **um CNAE** na tabela e clicar em "Excluir Selecionado", o sistema solicita a confirmação do usuário. Aprovada a ação, o registro selecionado é removido do banco de dados local, e a mensagem de sucesso ilustrada é exibida.',
+            'sec2-2-p1': 'O sistema permite a exclusão de apenas <b>um registro por vez</b>. Após selecionar <b>um CNAE</b> na tabela e clicar em "Excluir Selecionado", o sistema solicita a confirmação do usuário. Aprovada a ação, o registro selecionado é removido do banco de dados local, e a mensagem de sucesso ilustrada é exibida.',
             'sec2-2-p2-dialog': 'Mensagem de Sucesso Após Exclusão:',
             'sec2-2-p3-info': 'O diálogo de "Sim/Não" para confirmação da exclusão é obrigatório antes da remoção do registro selecionado.',
             
@@ -57,31 +58,32 @@ document.addEventListener('DOMContentLoaded', () => {
             // Section 1
             'sec1-title': '1. HOME SCREEN (CNAE API IBGE Query)',
             'sec1-p1': 'This is the system\'s entry screen. Its purpose is to list all CNAE Subclasses available in the IBGE API catalog, serving as the main view of raw data and allowing quick access to local management functions.',
-            'sec1-img-caption': 'Overview: Full listing of records obtained from the API (table `tableCnaes`).',
+            'sec1-img-caption': 'Overview: Full listing of records obtained from the API.',
             'sec1-h3-list': '1.1. API Record List',
             'sec1-p2': 'The table displays the list of CNAE, with the columns "IBGE ID" and "Description". This data is loaded directly from the API and does not represent the content of the local database.',
             'sec1-h3-actions': '1.2. Actions on the Home Screen',
-            'sec1-li-update-btn': 'Update List Button: Triggers the `buscarSubclassesAPI` function to reload the CNAE list directly from the IBGE API.',
-            'sec1-li-search-btn': 'Search CNAE Button: Triggers the `abrirPesquisaDetalhada` function, redirecting to Section 2 to interact with local data (search, save, change, or delete a record).',
+            'sec1-li-update-btn': 'Update List Button: Reloads the CNAE list directly from the IBGE API.',
+            'sec1-li-search-btn': 'Search CNAE Button: Redirects to Section 2, where you can search, save, change, or delete a record in the local data.',
 
-            // Seção 2 - Geral
+            // Seção 2 - Geral 
             'sec2-title': '2. DETAILED SEARCH (Local CNAE Management)',
-            'sec2-p1': 'The Detailed Search screen focuses on CRUD operations (Create, Read, Update, and Delete), concentrating only on records already persisted in the local database.',
+            'sec2-p1': 'The Detailed Search screen is the hub for CRUD operations (Create, Read, Update, and Delete). It <b>displays both local records</b> (for management) <b>and data imported from the API</b> (for persistence in the local database).',
 
             // Section 2 - Tabs
-            'tab-search-local': 'Search/Query (Local)',
-            'tab-exclude': 'Exclude Selected', // Alterado para singular
+            'tab-search-local': 'Search/Query (Local/API)',
+            'tab-exclude': 'Exclude Selected', 
             'tab-edit': 'Edit Selected',
             'tab-save': 'Save/Include (Local)',
             
-            // Seção 2.1
-            'sec2-1-h3': '2.1. Search and Query Records (Local Database)',
-            'sec2-1-p1': 'Use the field \'Enter CNAE\' to filter results. Clicking "Search" lists CNAE matching the filter, searching exclusively in the local database.',
+            // Seção 2.1 
+            'sec2-1-h3': '2.1. Search and Query Records (Local Database and API)',
+            // CORREÇÃO APLICADA AQUI: Incluindo a busca na API
+            'sec2-1-p1': 'Use the field \'Enter CNAE\' to filter. Clicking "Search" in the "Search/Query" tab searches and lists CNAEs <b>from the local database AND also from the IBGE API</b>, acting as the CRUD read function.',
             'sec2-1-p2': 'The listed records (after search) serve as the basis for other local CRUD functions.',
 
-            // Seção 2.2 (Corrigido para exclusão única)
+            // Seção 2.2 
             'sec2-2-h3': '2.2. Exclude Selected CNAE (Confirmation)',
-            'sec2-2-p1': 'The system allows the deletion of only **one record at a time**. After selecting **one CNAE** in the table and clicking "Exclude Selected", the system requests user confirmation. Once approved, the selected record is removed from the local database, and the illustrated success message is displayed.',
+            'sec2-2-p1': 'The system allows the deletion of only <b>one record at a time</b>. After selecting <b>one CNAE</b> in the table and clicking "Exclude Selected", the system requests user confirmation. Once approved, the selected record is removed from the local database, and the illustrated success message is displayed.',
             'sec2-2-p2-dialog': 'Success Message After Exclusion:',
             'sec2-2-p3-info': 'The "Yes/No" dialog for exclusion confirmation is mandatory before the removal of the selected record.',
             
@@ -104,45 +106,46 @@ document.addEventListener('DOMContentLoaded', () => {
             // Sección 1
             'sec1-title': '1. PANTALLA INICIAL (Consulta de CNAE de la API IBGE)',
             'sec1-p1': 'Esta es la pantalla de entrada del sistema. Su objetivo es listar todas las Subclases CNAE disponibles en el catálogo de la API del IBGE, sirviendo como la vista principal de los datos brutos y permitiendo el acceso a las funciones de gestión local.',
-            'sec1-img-caption': 'Vista General: Listado completo de los registros obtenidos de la API (tabla `tableCnaes`).',
+            'sec1-img-caption': 'Vista General: Listado completo de los registros obtenidos de la API.',
             'sec1-h3-list': '1.1. Lista de Registros de la API',
             'sec1-p2': 'La tabla muestra la lista de CNAE, con las columnas "ID IBGE" y "Descripción". Estos datos se leen directamente de la API y no representan el contenido de la base de datos local.',
             'sec1-h3-actions': '1.2. Acciones en la Pantalla Inicial',
-            'sec1-li-update-btn': 'Botón Actualizar Lista: Activa la función `buscarSubclasesAPI` para recargar la lista de CNAE directamente de la API del IBGE.',
-            'sec1-li-search-btn': 'Botón Buscar CNAE: Activa la función `abrirPesquisaDetalhada`, redirigiendo a la Sección 2 para interactuar con los datos locales (buscar, guardar, modificar o eliminar un registro).',
+            'sec1-li-update-btn': 'Botón Actualizar Lista: Recarga la lista de CNAE directamente de la API del IBGE.',
+            'sec1-li-search-btn': 'Botón Buscar CNAE: Redirige a la Sección 2, donde es posible buscar, guardar, modificar o eliminar un registro en los datos locales.',
 
-            // Sección 2 - General
+            // Sección 2 - General 
             'sec2-title': '2. BÚSQUEDA DETALLADA (Gestión de CNAEs Locales)',
-            'sec2-p1': 'La pantalla de Búsqueda Detallada concentra las operaciones CRUD (Creación, Lectura, Actualización y Eliminación), enfocándose solo en los registros ya persistidos en la base de datos local.',
+            'sec2-p1': 'La pantalla de Búsqueda Detallada es el centro de las operaciones CRUD (Creación, Lectura, Actualización y Eliminación). <b>Muestra tanto los registros locales</b> (para gestión) <b>como los datos importados de la API</b> (para persistencia en la base de datos local).',
 
             // Sección 2 - Pestañas
-            'tab-search-local': 'Buscar/Consultar (Local)',
-            'tab-exclude': 'Eliminar Seleccionado', // Alterado para singular
+            'tab-search-local': 'Buscar/Consultar (Local/API)',
+            'tab-exclude': 'Eliminar Seleccionado', 
             'tab-edit': 'Editar Seleccionado',
-            'tab-save': 'Guardar/Incluir (Local)',
+            'tab-save': 'Guardar/Incluir',
             
-            // Sección 2.1
-            'sec2-1-h3': '2.1. Buscar y Consultar Registros (Base de Datos Local)',
-            'sec2-1-p1': 'Utilice el campo \'Escriba el CNAE\' para filtrar los resultados. Al hacer clic en "Buscar", el sistema lista los CNAE que corresponden al filtro, buscando-los exclusivamente en la base de datos local.',
+            // Sección 2.1 
+            'sec2-1-h3': '2.1. Buscar y Consultar Registros (Base de Datos Local y API)',
+            // CORREÇÃO APLICADA AQUI: Incluyendo la búsqueda en la API
+            'sec2-1-p1': 'Utilice el campo \'Escriba el CNAE\' para filtrar. Al hacer clic en "Buscar" en la pestaña "Buscar/Consultar", el sistema busca y lista CNAEs <b>en la base de datos local Y también en la API del IBGE</b>, actuando como la función de lectura (READ) del CRUD.',
             'sec2-1-p2': 'Los registros listados (después de la búsqueda) sirven como base para las demás funciones CRUD locales.',
 
-            // Sección 2.2 (Corrigido para exclusão única)
+            // Sección 2.2 
             'sec2-2-h3': '2.2. Eliminar CNAE Seleccionado (Confirmación)',
-            'sec2-2-p1': 'El sistema permite la eliminación de solo **un registro a la vez**. Tras seleccionar **un CNAE** en la tabla y hacer clic en "Eliminar Seleccionado", el sistema solicita la confirmación del usuario. Una vez aprobada, el registro seleccionado se elimina de la base de datos local, y se muestra el mensaje de éxito ilustrado.',
+            'sec2-2-p1': 'El sistema permite la eliminación de solo <b>un registro a la vez</b>. Tras seleccionar <b>un CNAE</b> en la tabla y hacer clic en "Eliminar Seleccionado", el sistema solicita la confirmación del usuario. Una vez aprobada, el registro seleccionado se elimina de la base de datos local, y se muestra el mensaje de éxito ilustrado.',
             'sec2-2-p2-dialog': 'Mensaje de Éxito Después de la Eliminación:',
             'sec2-2-p3-info': 'El diálogo de "Sí/No" para la confirmación de la eliminación es obligatorio antes de la remoción del registro seleccionado.',
             
-            // Sección 2.3
+            // Seção 2.3
             'sec2-3-h3': '2.3. Editar CNAE Seleccionado',
             'sec2-3-p1': 'Al seleccionar un CNAE y hacer clic en el botón "Editar Seleccionado", se abre un cuadro de diálogo, permitiendo la modificación de la descripción de la Subclase, como se ve a continuación.',
             'sec2-3-p2-edit': 'Diálogo de Edición de Descripción:',
-            'sec2-3-p3': 'La modificación se guarda en la base de datos local al hacer clic en "OK" en el diálogo de edición.',
+            'sec2-3-p3': 'La modificación es guarda en la base de datos local al hacer clic en "OK" en el diálogo de edición.',
 
             // Seção 2.4
             'sec2-4-h3': '2.4. Guardar/Incluir CNAE (Base de Datos Local)',
             'sec2-4-p1': 'El botón "Guardar CNAEs" (ubicado en la parte inferior de la pantalla de búsqueda) se utiliza para persistir datos en la base de datos local, ya sea un CNAE importado o un registro editado. La imagen a seguir muestra una lista de resultados filtrados antes de ser potencialmente guardados.',
-            'sec2-4-p2-api-result': 'Resultados de la Búsqueda Filtrados por "A":',
-            'sec2-4-p3': 'El flujo permite consolidar nuevos datos (o importações) en la base de datos local para la gestión a través de CRUD.',
+            'sec2-4-p2-api-result': 'Search Results Filtered by "A":',
+            'sec2-4-p3': 'El flujo permite consolidar nuevos datos (ou importações) en la base de datos local para la gestión a través de CRUD.',
         }
     };
 
