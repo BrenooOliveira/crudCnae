@@ -1,6 +1,7 @@
 package com.crudcnae.controller;
 
 import com.crudcnae.api.ApiCnaeFacade;
+import com.crudcnae.api.ApiCnaeFactory;
 import com.crudcnae.dao.CnaeDAO;
 import com.crudcnae.dao.DatabaseManager;
 import com.crudcnae.model.RegistroLocalCnae;
@@ -42,15 +43,24 @@ public class SearchController {
         try {
             String entrada = txtCnae.getText().trim();
             if (entrada.isEmpty()) {
-                showInfo("Informe um número de CNAE completo.");
+                showInfo("Informe um código de CNAE válido (ex: 47, 47116, 4711301).");
                 return;
             }
-            List<SubclasseCnae> result = api.consultar("subclasse", entrada);
+
+            // Detecta automaticamente o tipo
+            ApiCnaeFactory factory = new ApiCnaeFactory();
+            String tipo = factory.detectarTipo(entrada);
+
+            // Usa a fachada normalmente
+            List<SubclasseCnae> result = api.consultar(tipo, entrada);
+
             tableResultados.setItems(FXCollections.observableArrayList(result));
+            showInfo("Consulta realizada via tipo: " + tipo.toUpperCase());
         } catch (Exception e) {
             showError("Erro na consulta à API", e.getMessage());
         }
     }
+
 
     @FXML
     public void onSalvarTabela() {
