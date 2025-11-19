@@ -27,17 +27,33 @@ public final class CnaeDAO {
     public void inserir(RegistroLocalCnae reg) {
         String sql = "INSERT INTO registro_local_cnae (id_ibge, codigo, descricao, data_cadastro, data_atualizacao) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = dbManager.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             conn.setAutoCommit(false);
-            ps.setObject(1, reg.getIdIBGE(), Types.INTEGER);
+            // id_ibge (pode ser null)
+            if (reg.getIdIBGE() == null) {
+                ps.setNull(1, Types.INTEGER);
+            } else {
+                ps.setInt(1, reg.getIdIBGE());
+            }
+
             ps.setString(2, reg.getCodigo());
             ps.setString(3, reg.getDescricao());
+
             LocalDateTime now = reg.getDataCadastro() != null ? reg.getDataCadastro() : LocalDateTime.now();
             ps.setString(4, now.format(FORMATTER));
-            ps.setString(5, reg.getDataAtualizacao() != null ? reg.getDataAtualizacao().format(FORMATTER) : null);
 
-            ps.executeUpdate();
+            if (reg.getDataAtualizacao() != null) {
+                ps.setString(5, reg.getDataAtualizacao().format(FORMATTER));
+            } else {
+                ps.setNull(5, Types.VARCHAR);
+            }
+
+            int affected = ps.executeUpdate();
+            if (affected == 0) {
+                conn.rollback();
+                throw new RuntimeException("Nenhuma linha inserida ao tentar gravar registro local CNAE");
+            }
 
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -47,6 +63,15 @@ public final class CnaeDAO {
             }
             conn.commit();
         } catch (SQLException e) {
+            // garantir rollback quando possível
+            try {
+                // tenta rollback rápido — não obrigatório, apenas tentativa segura
+                Connection conn = dbManager.getConnection();
+                if (conn != null && !conn.getAutoCommit()) conn.rollback();
+                conn.close();
+            } catch (Exception ex) {
+                // ignore - fallback
+            }
             throw new RuntimeException("Erro ao inserir registro local CNAE", e);
         }
     }
@@ -139,4 +164,24 @@ public final class CnaeDAO {
         if (updated != null) r.setDataAtualizacao(LocalDateTime.parse(updated, FORMATTER));
         return r;
     }
+
+    /**
+    * Retorna true se já existir um registro com esse id_ibge (não considera idLocal).
+    * Se idIBGE == null retorna false (não considere nulo como duplicata).
+    */
+    public boolean existsByIdIBGE(Integer idIBGE) {
+        if (idIBGE == null) return false;
+        String sql = "SELECT 1 FROM registro_local_cnae WHERE id_ibge = ? LIMIT 1";
+        try (Connection conn = dbManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idIBGE);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao verificar existência por idIBGE", e);
+        }
+    }
+
+
 }

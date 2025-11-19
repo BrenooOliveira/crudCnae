@@ -15,7 +15,7 @@ import java.util.Objects;
 public final class SubclasseCnae {
 
     @JsonProperty("id")
-    private int idIBGE;
+    private Integer idIBGE;
 
     @JsonDeserialize(using = NestedTextDeserializer.class)
     private String codigo;

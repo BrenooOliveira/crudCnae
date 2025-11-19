@@ -61,18 +61,43 @@ public class SearchController {
         }
     }
 
-
     @FXML
     public void onSalvarTabela() {
         try {
-            List<SubclasseCnae> selecionados = tableResultados.getSelectionModel().getSelectedItems();
-            if (selecionados.isEmpty()) {
-                selecionados = tableResultados.getItems(); // salva todos se nada selecionado
+            ObservableList<SubclasseCnae> selected = tableResultados.getSelectionModel().getSelectedItems();
+            List<SubclasseCnae> selecionados;
+            if (selected == null || selected.isEmpty()) {
+                selecionados = tableResultados.getItems();
+            } else {
+                selecionados = List.copyOf(selected);
             }
+
+            if (selecionados == null || selecionados.isEmpty()) {
+                showInfo("Tabela vazia — nada a salvar.");
+                return;
+            }
+
+            int gravados = 0;
+            int pulados = 0;
+
             for (SubclasseCnae s : selecionados) {
-                dao.inserir(new RegistroLocalCnae(s.getIdIBGE(), s.getCodigo(), s.getDescricao()));
+                Integer idIbge = s.getIdIBGE();
+                // evita duplicatas quando idIBGE estiver presente
+                if (idIbge != 0 && dao.existsByIdIBGE(idIbge)) {
+                    pulados++;
+                    continue;
+                }
+
+                RegistroLocalCnae reg = new RegistroLocalCnae(
+                        idIbge == 0 ? null : idIbge,
+                        s.getCodigo(),
+                        s.getDescricao()
+                );
+                dao.inserir(reg);
+                gravados++;
             }
-            showInfo("CNAEs salvos com sucesso no banco local!");
+
+            showInfo(String.format("Salvar finalizado: %d gravados, %d pulados (duplicatas)", gravados, pulados));
         } catch (Exception e) {
             showError("Erro ao salvar CNAEs", e.getMessage());
         }
